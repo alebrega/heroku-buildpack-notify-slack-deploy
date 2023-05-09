@@ -17,6 +17,9 @@ export_env_dir() {
 export_env_dir $3
 
 SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed"
+touched_files=$(git diff --name-only HEAD^ HEAD)
+SLACK_MESSAGE="Deployment successful: *$HEROKU_APP_NAME* ($GIT_COMMIT) deployed to $ENV by $HEROKU_EMAIL\nTouched files:\n$touched_files"
+
 
 if [[ -z "${DEPLOY_NOTIFY_GITHUB_AUTH_TOKEN}" || -z "${DEPLOY_NOTIFY_GITHUB_ORG}" || -z "${DEPLOY_NOTIFY_GITHUB_PROJECT}" ]]; then
   # Not loading Github Data
